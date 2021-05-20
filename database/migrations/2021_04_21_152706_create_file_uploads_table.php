@@ -19,6 +19,7 @@ class CreateFileUploadsTable extends Migration
             $table->string('name_file')->nullable($value = false);
             $table->string('path')->nullable($value = false);
             $table->string('token')->nullable($value = false)->default("");
+            $table->foreignId('users_id')->constrained('users');
             $table->timestamps();
         });
     }

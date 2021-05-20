@@ -21,6 +21,7 @@ class FileUploadRepository {
             'name_file' => $file_name,
             'path' => '/storage/' . $file_path,
             'token' => $file_token,
+            'users_id' => auth()->user()->id,
         ]);
         return $fileUpload;
     }

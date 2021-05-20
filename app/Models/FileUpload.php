@@ -9,7 +9,7 @@ class FileUpload extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 'name_file', 'path', 'token'
+        'name', 'name_file', 'path', 'token', 'users_id'
     ];
     // Crea url para visualizar la imagen
     protected $appends = ['url'];
@@ -18,7 +18,7 @@ class FileUpload extends Model
     }
 
     function scopeSelectData($query) {
-        return $query->select('name', 'token', 'path');
+        return $query->select('file_uploads.name', 'file_uploads.token', 'file_uploads.path');
     }
 
     function scopeFilesData($query) {
@@ -26,8 +26,10 @@ class FileUpload extends Model
     }
 
     function scopefileData($query, $token) {
-        return $this->selectData($query)->where('token', $token)
-                    ->first();
+        return $this->selectData($query)
+                    ->addSelect('file_uploads.users_id', 'users.name as user_name')
+                    ->join('users', 'users.id', '=', 'file_uploads.users_id')
+                    ->where('token', $token)->first();
     }
 
 }
